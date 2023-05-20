@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Vite un diapo</title>
+		<meta charset="utf-8" />
+		<style>
+			html {
+				background-color: #BBB;
+				font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif,"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"!important;
+			}
+			body {
+				margin: 3em auto;
+				padding: 2rem;
+				background:white;
+				max-width: 850px;
+				border-radius:15px;
+				font-size: 1.03rem;
+			}
+			h1 {
+				font-size: 2.25rem;
+				margin-bottom:10px;
+				margin-top:10px;}
+			h1,
+			p {
+				text-align: center;
+			}
+			textarea {
+				width: 95%;
+				max-width: 750px;
+				display: block;
+				margin: auto;
+				margin-top: 30px;
+				height: 60vh;
+				font-family: monospace;
+				font-size: 0.95em;
+				border-radius: 5px;
+				background-color: #f6f8fa;
+				border: 1px solid #e5e7eb;
+			}
+			button {
+				margin: auto;
+				display: block;
+				margin-top: 20px;
+				font-size:1.1rem;
+				background-color: #0070f3;
+				color:white;
+				border:0;
+				border-radius: 4px;
+				padding: 6px 12px;
+			}
+			footer {
+				font-size: 0.8em;
+				text-align: center;
+				margin: auto;
+				margin-top:3em;
+				color:#555;
+				border-top:1px solid #BBB;
+				padding-top:1em;
+				max-width: 600px;
+			}
+			footer a {
+				color: #0453ad;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Vite un diapo</h1>
+		<p>Copier-coller votre markdown ici et cliquer sur le bouton “Convertir”</p>
+		<textarea id="input">
+<!-- Vous pouvez modifier comme vous le souhaitez les paramètres ci-dessus et copier-coller ensuite votre markdown. -->
+
+# Titre
+
+## Titre 2
+
+### Titre 3
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi condimentum rutrum ornare. Proin vel mi euismod, egestas nisl nec, laoreet quam. Morbi eu urna id lorem venenatis convallis. Nam facilisis rutrum lacus, sed euismod enim ultricies vitae. Nulla nec posuere eros. Praesent maximus ligula urna. Quisque dapibus vel risus id dignissim. Sed rhoncus enim pharetra odio rhoncus vulputate. Curabitur sapien erat, fringilla placerat accumsan eget, gravida nec elit. Maecenas id interdum ligula, a efficitur dui. Maecenas tincidunt, risus in venenatis porta, neque magna interdum nibh, eu fringilla est lorem ac tellus. Mauris erat massa, ultricies ut posuere quis, molestie a lacus. Etiam velit eros, mollis sit amet est ut, sollicitudin feugiat metus. Ut orci enim, lacinia ac velit et, auctor dapibus urna.
+
+</textarea>
+		<button onclick="convert()">Convertir</button>
+		<footer>Outil libre et gratuit, créé par <a href="http://eyssette.github.io/">Cédric Eyssette</a>. Plus d'informations sur la <a href="https://eyssette.forge.aeif.fr/vite-un-diapo/">page d'accueil</a>.</footer>
+		<script
+			type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji@2.0.2/dist/markdown-it-emoji.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/markdown-it-mark@3.0.1/dist/markdown-it-mark.min.js"></script>
+		<script>
+			var md=window.markdownit({html: true, breaks:true}).use(window.markdownitEmoji).use(window.markdownitMark)
+			/* https://github.com/docarys/markdown-it-admonition */
+			options={html:true, breaks:true};var minMarkers=3,markerStr=options.marker||"!",markerChar=markerStr.charCodeAt(0),markerLen=markerStr.length,validate=validateDefault,render=renderDefault,type="",title=null,types=options.types||["note","abstract","info","tip","success","question","warning","failure","danger","bug","example","quote"];function renderDefault(e,r,n,t,i){var a=e[r];return"admonition_open"===a.type?e[r].attrPush(["class","admonition "+a.info]):"admonition_title_open"===a.type&&e[r].attrPush(["class","admonition-title"]),i.renderToken(e,r,n,t,i)}function validateDefault(e){var r=e.trim().split(" ",2);return title="",type=r[0],r.length>1&&(title=e.substring(type.length+2)),types.includes(type)}function admonition(e,r,n,t){var i,a,o,l,s,d,m,p,u=!1,k=e.bMarks[r]+e.tShift[r],c=e.eMarks[r];if(markerChar!==e.src.charCodeAt(k))return!1;for(i=k+1;i<=c&&markerStr[(i-k)%markerLen]===e.src[i];i++);if((o=Math.floor((i-k)/markerLen))<minMarkers)return!1;if(i-=(i-k)%markerLen,l=e.src.slice(k,i),s=e.src.slice(i,c),!validate(s))return!1;if(t)return!0;for(a=r;!(++a>=n)&&!((k=e.bMarks[a]+e.tShift[a])<(c=e.eMarks[a])&&e.sCount[a]<e.blkIndent);)if(markerChar===e.src.charCodeAt(k)&&!(e.sCount[a]-e.blkIndent>=4)){for(i=k+1;i<=c&&markerStr[(i-k)%markerLen]===e.src[i];i++);if(!(Math.floor((i-k)/markerLen)<o||(i-=(i-k)%markerLen,(i=e.skipSpaces(i))<c))){u=!0;break}}return m=e.parentType,p=e.lineMax,e.parentType="admonition",e.lineMax=a,(d=e.push("admonition_open","div",1)).markup=l,d.block=!0,d.info=type,d.map=[r,a],(d=e.push("admonition_title_open","p",1)).markup=l+" "+type,d.map=[r,a],(d=e.push("inline","",0)).content=title,d.map=[r,e.line-1],d.children=[],(d=e.push("admonition_title_close","p",-1)).markup=l+" "+type,e.md.block.tokenize(e,r+1,a),(d=e.push("admonition_close","div",-1)).markup=e.src.slice(k,i),d.block=!0,e.parentType=m,e.lineMax=p,e.line=a+(u?1:0),!0}md.block.ruler.before("code","admonition",admonition,{alt:["paragraph","reference","blockquote","list"]}),md.renderer.rules.admonition_open=render,md.renderer.rules.admonition_title_open=render,md.renderer.rules.admonition_title_close=render,md.renderer.rules.admonition_close=render;
+		</script>
+		<script>
+			var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+			function convert() {
+				const input = document.getElementById("input").value;
+				const yamlRegex = /^---\n([\s\S]*?)\n---\n/;
+				const match = input.match(yamlRegex);
+				const yaml = match ? match[1] : null;
+				var mdWithoutYaml = input.replace(yamlRegex, "");
+				mdWithoutYaml = mdWithoutYaml.replaceAll(":::","!!!")
+				let params;
+				if (yaml) {
+					params = jsyaml.load(yaml);
+				}
+				if (yaml && typeof params.maths !== "undefined" && params.maths === true) {
+					mdWithoutYaml = mdWithoutYaml
+					.replace(/\$\$(.*?)\$\$/g, '&#92;[$1&#92;]')
+					.replace(/\$(.*?)\$/g, '&#92;\($1&#92;\)');
+				}
+				const html = md.render(mdWithoutYaml);
+				const pattern1 = new RegExp(/\s(;!%\?:€»)/, "g");
+				const pattern2 = new RegExp(/(«)\s/, "g");
+				var htmlNbsp = html
+					.replaceAll(" !", "&nbsp;!")
+					.replaceAll(" ?", "&nbsp;?")
+					.replaceAll(" ;", "&nbsp;;")
+					.replaceAll(" :", "&nbsp;:")
+					.replaceAll(" »", "&nbsp;»")
+					.replaceAll("« ", "«&nbsp;");
+				const template = `<!DOCTYPE html>
+			<html>
+			<head>
+				<title>Diaporama</title>
+				<meta charset="utf-8">
+				${
+					yaml && typeof params.maths !== "undefined" && params.maths === true
+						? '<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"><\/script>'
+						: ""
+				}
+				<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/eyssette/weenote-reloaded@latest/slides-theme.min.css"></link>
+				<script src="https://cdn.jsdelivr.net/gh/eyssette/weenote-reloaded@latest/weenote-reloaded-auto.min.js"><\/script>
+			</head>
+			<body>${htmlNbsp}</body>
+			</html>`;
+				const result = window.open();
+				result.document.write(template);
+				result.document.close();
+			}
+		</script>
+	</body>
+</html>
