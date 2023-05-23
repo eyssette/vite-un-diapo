@@ -101,7 +101,6 @@ $$\left( \frac{a+b}{c-d} \right)$$
 		<script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji@2.0.2/dist/markdown-it-emoji.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/markdown-it-mark@3.0.1/dist/markdown-it-mark.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/gh/fabiospampinato/mermaid-bundled@master/mermaid.js"></script>
 		<script>
 			function mermaidPlugin(md) {
 	const origRule = md.renderer.rules.fence.bind(md.renderer.rules);
@@ -109,9 +108,7 @@ $$\left( \frac{a+b}{c-d} \right)$$
 		const token = tokens[idx];
 		if (token.info === 'mermaid') {
 			var code = token.content.trim();
-				const codeMermaid = mermaid.mermaidAPI.render('graphDiv', code);
-				return codeMermaid;
-			/* return `<div class="mermaid">${code}</div>`; */
+			return `<div class="mermaid">${code}</div>`;
 		}
 		// Other languages
 		return origRule(tokens, idx, options, env, slf);
@@ -165,6 +162,11 @@ $$\left( \frac{a+b}{c-d} \right)$$
 						: ""
 				}
 				<style></style>
+				<script type="module">
+					import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+					window.mermaid = mermaid;
+					mermaid.initialize({ startOnLoad: true });
+				<\/script>
 				<link rel="stylesheet" href="https://eyssette.forge.aeif.fr/weenote-reloaded/slides-theme.min.css"></link>
 				<script src="https://eyssette.forge.aeif.fr/weenote-reloaded/weenote-reloaded-auto.min.js"><\/script>
 			</head>
