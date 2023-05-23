@@ -37,16 +37,32 @@
 				background-color: #f6f8fa;
 				border: 1px solid #e5e7eb;
 			}
+			.buttons {
+				margin:auto;
+				text-align:center;
+			}
 			button {
 				margin: auto;
-				display: block;
+				display: inline-block;
 				margin-top: 20px;
 				font-size:1.1rem;
-				background-color: #0070f3;
-				color:white;
 				border:0;
 				border-radius: 4px;
 				padding: 6px 12px;
+			}
+			button:nth-of-type(1) {
+				background-color: #0070f3;
+				color:white;
+			}
+			button:nth-of-type(2) {
+				background-color: #EFEFEF;
+				color:black;
+				border: 1px solid #efefef;
+			}
+			button:nth-of-type(3) {
+				border: 1px solid #efefef;
+				background-color:white;
+				color:#333;
 			}
 			footer {
 				font-size: 0.8em;
@@ -61,6 +77,27 @@
 			footer a {
 				color: #0453ad;
 				text-decoration: none;
+			}
+			#notification {
+				position: absolute;
+				left: 50%;
+				margin-top:10px;
+				transform: translateX(-50%);
+				background-color: #c8e6ce;
+				padding: 5px;
+				border-radius: 5px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+				transition: opacity 0.3s ease-in-out;
+				display:block;
+				font-size:0.9em;
+				color: #072b0d;
+				max-width: 180px;
+				opacity: 0.9;
+			}
+			.hidden {
+				display:none!important;
+				opacity: 0;
+				pointer-events: none;
 			}
 		</style>
 	</head>
@@ -93,7 +130,12 @@ $$\left( \frac{a+b}{c-d} \right)$$
 </section>
 
 </textarea>
-		<button onclick="convert()">Convertir</button>
+		<div class="buttons">
+			<button onclick="convert()">Convertir</button>
+			<button onclick="share()">Partager</button>
+			<div id="notification" class="hidden">Le lien a été copié dans le presse-papiers</div>
+			<button onclick="init()">Réinitialiser</button>
+		</div>
 		<footer>Outil libre et gratuit, créé par <a href="http://eyssette.github.io/">Cédric Eyssette</a>. Plus d'informations sur la <a href="https://forge.aeif.fr/eyssette/vite-un-diapo/">page d'accueil</a>.</footer>
 		<script
 			type="text/javascript"
@@ -102,6 +144,12 @@ $$\left( \frac{a+b}{c-d} \right)$$
 		<script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji@2.0.2/dist/markdown-it-emoji.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/markdown-it-mark@3.0.1/dist/markdown-it-mark.min.js"></script>
 		<script>
+			const params = new URLSearchParams(window.location.search);
+			var contenuDiapo = params.get('c');
+			var textarea = document.getElementById('input');
+			if (contenuDiapo) {	
+				textarea.value = decodeURIComponent(contenuDiapo);
+			}
 			function mermaidPlugin(md) {
 	const origRule = md.renderer.rules.fence.bind(md.renderer.rules);
 	md.renderer.rules.fence = (tokens, idx, options, env, slf) => {
@@ -117,8 +165,35 @@ $$\left( \frac{a+b}{c-d} \right)$$
 			var md=window.markdownit({html: true, breaks:true}).use(window.markdownitEmoji).use(window.markdownitMark).use(mermaidPlugin)
 			/* https://github.com/docarys/markdown-it-admonition */
 			options={html:true, breaks:true};var minMarkers=3,markerStr=options.marker||"!",markerChar=markerStr.charCodeAt(0),markerLen=markerStr.length,validate=validateDefault,render=renderDefault,type="",title=null,types=options.types||["note","abstract","info","tip","success","question","warning","failure","danger","bug","example","quote"];function renderDefault(e,r,n,t,i){var a=e[r];return"admonition_open"===a.type?e[r].attrPush(["class","admonition "+a.info]):"admonition_title_open"===a.type&&e[r].attrPush(["class","admonition-title"]),i.renderToken(e,r,n,t,i)}function validateDefault(e){var r=e.trim().split(" ",2);return title="",type=r[0],r.length>1&&(title=e.substring(type.length+2)),types.includes(type)}function admonition(e,r,n,t){var i,a,o,l,s,d,m,p,u=!1,k=e.bMarks[r]+e.tShift[r],c=e.eMarks[r];if(markerChar!==e.src.charCodeAt(k))return!1;for(i=k+1;i<=c&&markerStr[(i-k)%markerLen]===e.src[i];i++);if((o=Math.floor((i-k)/markerLen))<minMarkers)return!1;if(i-=(i-k)%markerLen,l=e.src.slice(k,i),s=e.src.slice(i,c),!validate(s))return!1;if(t)return!0;for(a=r;!(++a>=n)&&!((k=e.bMarks[a]+e.tShift[a])<(c=e.eMarks[a])&&e.sCount[a]<e.blkIndent);)if(markerChar===e.src.charCodeAt(k)&&!(e.sCount[a]-e.blkIndent>=4)){for(i=k+1;i<=c&&markerStr[(i-k)%markerLen]===e.src[i];i++);if(!(Math.floor((i-k)/markerLen)<o||(i-=(i-k)%markerLen,(i=e.skipSpaces(i))<c))){u=!0;break}}return m=e.parentType,p=e.lineMax,e.parentType="admonition",e.lineMax=a,(d=e.push("admonition_open","div",1)).markup=l,d.block=!0,d.info=type,d.map=[r,a],(d=e.push("admonition_title_open","p",1)).markup=l+" "+type,d.map=[r,a],(d=e.push("inline","",0)).content=title,d.map=[r,e.line-1],d.children=[],(d=e.push("admonition_title_close","p",-1)).markup=l+" "+type,e.md.block.tokenize(e,r+1,a),(d=e.push("admonition_close","div",-1)).markup=e.src.slice(k,i),d.block=!0,e.parentType=m,e.lineMax=p,e.line=a+(u?1:0),!0}md.block.ruler.before("code","admonition",admonition,{alt:["paragraph","reference","blockquote","list"]}),md.renderer.rules.admonition_open=render,md.renderer.rules.admonition_title_open=render,md.renderer.rules.admonition_title_close=render,md.renderer.rules.admonition_close=render;
-		</script>
-		<script>
+			const baseURL = window.location.origin + window.location.pathname;
+			function init() {
+				window.location.href = baseURL;
+			}
+			function share() {
+				contenuDiapo = encodeURIComponent(textarea.value);
+				const shareURL = baseURL + '?c=' + contenuDiapo;
+
+				navigator.clipboard.writeText(shareURL)
+					.then(() => {
+						showNotification();
+					})
+					.catch((error) => {
+						alert('Erreur lors de la copie dans le presse-papiers :', error);
+					});
+			}
+
+			const notification = document.getElementById('notification');
+			function showNotification() {
+				notification.classList.remove('hidden');
+				setTimeout(function() {
+					hideNotification();
+				}, 1000);
+			}
+
+			function hideNotification() {
+				notification.classList.add('hidden');
+			}
+
 			function convert() {
 				const input = document.getElementById("input").value;
 				const yamlRegex = /^---\n([\s\S]*?)\n---\n/;
