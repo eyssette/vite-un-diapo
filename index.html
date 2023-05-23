@@ -142,6 +142,7 @@ $$\left( \frac{a+b}{c-d} \right)$$
 				const pattern1 = new RegExp(/\s(;!%\?:€»)/, "g");
 				const pattern2 = new RegExp(/(«)\s/, "g");
 				var htmlNbsp = html
+					.replaceAll(" !important", "!important")
 					.replaceAll(" !", "&nbsp;!")
 					.replaceAll(" ?", "&nbsp;?")
 					.replaceAll(" ;", "&nbsp;;")
