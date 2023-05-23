@@ -217,6 +217,10 @@ $$\left( \frac{a+b}{c-d} \right)$$
 				const pattern1 = new RegExp(/\s(;!%\?:€»)/, "g");
 				const pattern2 = new RegExp(/(«)\s/, "g");
 				var htmlNbsp = html
+					.replaceAll("<code>&amp;#92;(","<code>$")
+					.replaceAll("<code>&amp;#92;[","<code>$$$")
+					.replaceAll("&amp;#92;)</code>","$</code>")
+					.replaceAll("&amp;#92;]</code>","$$$</code>")
 					/* .replaceAll(" !important", "!important")
 					.replaceAll(" !", "&nbsp;!")
 					.replaceAll(" ?", "&nbsp;?")
@@ -239,7 +243,8 @@ $$\left( \frac{a+b}{c-d} \right)$$
 						? '<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"><\/script>'
 						: ""
 				}
-				<style></style>
+				<style>${
+					yaml && typeof params.style !== "undefined" ? params.style : ""}</style>
 				<script type="module">
 					import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 					window.mermaid = mermaid;
