@@ -157,7 +157,7 @@ On peut customiser l'apparence en CSS en utilisant la propriété `style` dans l
 			const hash = window.location.hash;
 			let contenuDiapo;
 			if (hash) {
-				contenuDiapo = hash.substring(1);
+				contenuDiapo = decodeURIComponent(hash.substring(1));
 			} else {
 				/* compatibilité avec l'ancien mode de partage */
 				const params = new URLSearchParams(window.location.search);
