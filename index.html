@@ -211,9 +211,9 @@ On peut customiser l'apparence en CSS en utilisant la propriété `style` dans l
 				notification.classList.add('hidden');
 			}
 
+			const yamlRegex = /^---\n([\s\S]*?)\n---\n/;
 			function convert() {
-				const input = document.getElementById("input").value;
-				const yamlRegex = /^---\n([\s\S]*?)\n---\n/;
+				const input = textarea.value;	
 				const match = input.match(yamlRegex);
 				const yaml = match ? match[1] : null;
 				var mdWithoutYaml = input.replace(yamlRegex, "");
