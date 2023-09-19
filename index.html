@@ -227,6 +227,9 @@ On peut customiser l'apparence en CSS en utilisant la propriété `style` dans l
 					.replace(/\$\$(.*?)\$\$/g, '&#92;[$1&#92;]')
 					.replace(/\$(.*?)\$/g, '&#92;\($1&#92;\)')
 				}
+				if (yaml && typeof params.separator !== "undefined" && params.separator !== '') {
+					mdWithoutYaml = '<section>\n\n'+mdWithoutYaml.replaceAll(params.separator,"\n\n</section><section>\n\n")+'\n\n</section>'
+				} 
 				const html = md.render(mdWithoutYaml);
 				const pattern1 = new RegExp(/\s(;!%\?:€»)/, "g");
 				const pattern2 = new RegExp(/(«)\s/, "g");
