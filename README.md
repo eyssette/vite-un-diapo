@@ -16,3 +16,5 @@ Si on veut placer sur une même diapositive plusieurs éléments, on met le cont
 Il faut penser à sauter une ligne après la balise `<section>` pour que le markdown soit correctement interprété.
 
 On peut inclure des mathématiques en Latex en ajoutant dans l'en-tête : `maths: true` et en utilisant `$FORMULE$` ou `$$FORMULE$$`.
+
+On peut générer des schémas et graphiques via le service Kroki, dans un bloc code, avec la syntaxe de Tikz, GraphViz, Mermaid, PlantUML ou Excalidraw, et des graphiques avec Vega ou Vegalite.
