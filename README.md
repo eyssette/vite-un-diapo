@@ -2,7 +2,7 @@
 
 “Vite un diapo” est un outil en ligne, libre et gratuit, qui permet de faire rapidement un diaporama.
 
-URL: <https://eyssette.github.io/vite-un-diapo>
+URL: <https://eyssette.forge.apps.education.fr/vite-un-diapo>
 
 ## Comment faire ?
 
